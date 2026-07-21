@@ -29,3 +29,31 @@ Unlike standard mail-merge tools or BCC-based scripts that often trigger spam fi
 1. Clone the repository:
    ```bash
    git clone [https://github.com/sidhantsaswat19/mass-email-utility](https://github.com/sidhantsaswat19/mass-email-utility)
+2. Navigate to the project root and add your configuration files:
+   * **`contacts.csv`**: A CSV file containing headers `Email` and `Name`.
+   * **`MyDocument.docx`**: The file you wish to attach.
+3. Update the `MassEmailSender.java` file with your specific SMTP credentials and target file paths.
+4. Build the executable JAR using Maven:
+   ```bash
+   mvn clean package
+5.Run the application from the terminal:
+   java -jar target/massMailNoBcc-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+🧠 Technical Architecture & Engineering Decisions
+When sending hundreds of emails, executing Transport.send() inside a for-loop is highly inefficient and typically results in a server-side disconnect or a spam flag due to excessive TCP handshakes.
+
+To solve this, the architecture was optimized to:
+
+Initialize a single authenticated Session.
+
+Explicitly open a Transport pipeline.
+
+Iterate through the CSV, construct individual MimeMessage objects, and push them sequentially through the existing, open pipeline.
+
+Cleanly terminate the connection only after the entire list has been processed.
+
+👨‍💻 Author
+Sidhant Saswat
+
+B.Tech Computer Engineering Student @ CMR University
