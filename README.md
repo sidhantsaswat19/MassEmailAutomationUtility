@@ -39,6 +39,7 @@ Unlike standard mail-merge tools or BCC-based scripts that often trigger spam fi
 5.Run the application from the terminal:
    ```bash
    java -jar target/massMailNoBcc-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
 ## 🧠 Technical Architecture & Engineering Decisions
 
