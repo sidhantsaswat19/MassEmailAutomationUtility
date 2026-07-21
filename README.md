@@ -37,23 +37,21 @@ Unlike standard mail-merge tools or BCC-based scripts that often trigger spam fi
    ```bash
    mvn clean package
 5.Run the application from the terminal:
+   ```bash
    java -jar target/massMailNoBcc-1.0-SNAPSHOT-jar-with-dependencies.jar
 
+## 🧠 Technical Architecture & Engineering Decisions
 
-🧠 Technical Architecture & Engineering Decisions
-When sending hundreds of emails, executing Transport.send() inside a for-loop is highly inefficient and typically results in a server-side disconnect or a spam flag due to excessive TCP handshakes.
+When sending hundreds of emails, executing `Transport.send()` inside a `for-loop` is highly inefficient and typically results in a server-side disconnect or a spam flag due to excessive TCP handshakes. 
 
 To solve this, the architecture was optimized to:
 
-Initialize a single authenticated Session.
+1. Initialize a single authenticated `Session`.
+2. Explicitly open a `Transport` pipeline.
+3. Iterate through the CSV, construct individual `MimeMessage` objects, and push them sequentially through the existing, open pipeline.
+4. Cleanly terminate the connection only after the entire list has been processed.
 
-Explicitly open a Transport pipeline.
+## 👨‍💻 Author
 
-Iterate through the CSV, construct individual MimeMessage objects, and push them sequentially through the existing, open pipeline.
-
-Cleanly terminate the connection only after the entire list has been processed.
-
-👨‍💻 Author
-Sidhant Saswat
-
-B.Tech Computer Engineering Student @ CMR University
+**Sidhant Saswat**  
+*B.Tech Computer Engineering Student @ CMR University*
